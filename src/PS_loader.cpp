@@ -1,6 +1,6 @@
 void AddPvPScripts();
 
-void Addmod_PvPScriptScripts()
+void Addmod_pvpscriptScripts()()
 {
     AddPvPScripts();
 }
