@@ -116,10 +116,9 @@ public:
             ChatHandler(killed->GetSession()).PSendSysMessage("You have been killed by player [%s] ", name.c_str());
             break;
         case 2: //Announce in notifaction
-            killed->GetSession()->SendNotification("You have been slain by [%s]", name.c_str());
+            ChatHandler(killed->GetSession()).PSendSysMessage("You have been slain by [{}]", name.c_str());
             break;
         case 3: // Announe in Notifaction and chathandler
-            killed->GetSession()->SendNotification("You have been slain by [%s]", name.c_str());
             ChatHandler(killed->GetSession()).PSendSysMessage("You have been killed by player [%s] ", name.c_str());
             break;
         }
