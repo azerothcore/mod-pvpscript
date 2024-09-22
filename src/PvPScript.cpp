@@ -78,6 +78,9 @@ public:
 
     bool CheckConditions(Player* killer, Player* killed)
     {
+        if (!killer || !killed)
+            return false;
+
         //if killer has same IP as death player do not drop loot as its cheating!
         if (spawnchestIP)
             if (killer->GetSession()->GetRemoteAddress() == killed->GetSession()->GetRemoteAddress())
