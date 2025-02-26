@@ -22,7 +22,7 @@ public:
         PLAYERHOOK_ON_PVP_KILL
     }) {}
 
-    void OnPlayerKilledByCreature(Creature* killer, Player* killed/*, bool& durabilityLoss*/) override
+    void OnPlayerKilledByCreature(Creature* killer, Player* killed/*, bool& durabilityLoss*/)
     {
         if (!sConfigMgr->GetOption<bool>("PvPChest", true))
             return;
@@ -50,7 +50,7 @@ public:
         }
     }
 
-    void OnPlayerPVPKill(Player* killer, Player* killed) override
+    void OnPlayerPVPKill(Player* killer, Player* killed)
     {
         if (!sConfigMgr->GetOption<bool>("PvPChest", true))
             return;
