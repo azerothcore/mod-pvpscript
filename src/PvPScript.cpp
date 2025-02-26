@@ -1,13 +1,13 @@
-#include "Configuration/Config.h"
-#include "Player.h"
-#include "Creature.h"
 #include "AccountMgr.h"
-#include "ScriptMgr.h"
+#include "Chat.h"
+#include "Configuration/Config.h"
+#include "Creature.h"
 #include "Define.h"
 #include "GossipDef.h"
-#include "Pet.h"
 #include "LootMgr.h"
-#include "Chat.h"
+#include "Pet.h"
+#include "Player.h"
+#include "ScriptMgr.h"
 
 uint32 SummonChest, KillAnnounce;
 bool spawnchestIP;
@@ -17,9 +17,12 @@ std::vector<uint32> AreatoIgnore = { 1741 /*Gurubashi*/, 2177 };
 class PvPScript : public PlayerScript
 {
 public:
-    PvPScript() : PlayerScript("PvPScript") {}
+    PvPScript() : PlayerScript("PvPScript", {
+        PLAYERHOOK_ON_PLAYER_KILLED_BY_CREATURE,
+        PLAYERHOOK_ON_PVP_KILL
+    }) {}
 
-    void OnPlayerKilledByCreature(Creature* killer, Player* killed/*, bool& durabilityLoss*/)
+    void OnPlayerKilledByCreature(Creature* killer, Player* killed/*, bool& durabilityLoss*/) override
     {
         if (!sConfigMgr->GetOption<bool>("PvPChest", true))
             return;
@@ -33,10 +36,8 @@ public:
         if (spawnchestIP)
             if (Pet* pet = killer->ToPet())
                 if (Player* owner = pet->GetOwner())
-                {
                     if (!CheckConditions(owner, killed))
                         return;
-                }
 
         if (!CheckConditions(nullptr, killed))
             return;
@@ -49,7 +50,7 @@ public:
         }
     }
 
-    void OnPVPKill(Player* killer, Player* killed)
+    void OnPlayerPVPKill(Player* killer, Player* killed) override
     {
         if (!sConfigMgr->GetOption<bool>("PvPChest", true))
             return;
